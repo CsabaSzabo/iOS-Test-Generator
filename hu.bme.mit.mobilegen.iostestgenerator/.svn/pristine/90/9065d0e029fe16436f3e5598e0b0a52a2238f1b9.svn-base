@@ -1,0 +1,10 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import java.io.PrintWriter;
+
+@SuppressWarnings("all")
+public class HelloXtend {
+  public void helloGenerator(final PrintWriter out) {
+    out.println("aaa");
+  }
+}

@@ -1,0 +1,89 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import java.util.List;
+
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class ModelNode {
+	private String id;
+	private String bpmn2;
+	
+	private List<ModelNode> childs;
+	private List<ModelAttribute> attributes;
+	
+	ModelNode() {
+		
+	}
+	
+	ModelNode(String id, String bpmn2) {
+		this.id = id;
+		this.bpmn2 = bpmn2;
+	}
+	
+	public void addChild(ModelNode node) {
+		childs.add(node);
+	}
+	
+	public void addAttribute(ModelAttribute attribute) {
+		attributes.add(attribute);
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getBpmn2() {
+		return bpmn2;
+	}
+
+	public void setBpmn2(String bpmn2) {
+		this.bpmn2 = bpmn2;
+	}
+
+	// set attributes from BPMN model
+	public void setAttributes(Node parentNode) {
+		NamedNodeMap nodeAttributes = parentNode.getAttributes();
+		NodeList nodeChilds = parentNode.getChildNodes();
+
+		int attributeCount = 0;
+		int childCount = 0;
+		
+		if (nodeAttributes != null) {
+			attributeCount = nodeAttributes.getLength();
+		}
+		if (nodeChilds != null) {
+			childCount = nodeChilds.getLength();
+		}
+		
+		// get node Attributes
+		System.out.println("---- [NodeAttributes]");
+		for (int i = 0; i < attributeCount; i++) {
+			Node nodeAttribute = nodeAttributes.item(i);
+			
+			ModelAttribute attribute = new ModelAttribute(nodeAttribute.getNodeName(), nodeAttribute.getNodeValue());
+			this.addAttribute(attribute);
+			
+			System.out.println("------ " + nodeAttribute.getNodeName() + " = " + nodeAttribute.getNodeValue());
+		}
+		
+		// node Childs
+		System.out.println("---- [NodeChild]");
+		for (int i = 0; i < childCount; i++) {
+			Node nodeChild = nodeChilds.item(i);						
+			
+			if (nodeChild.getNodeName().startsWith("bpmn2")) {
+				ModelNode node = new ModelNode(nodeChild.getNodeName(), nodeChild.getTextContent());
+				this.addChild(node);
+				
+				System.out.println("------ " + nodeChild.getNodeName() + " = " + nodeChild.getTextContent());
+			}
+		}
+	}
+	
+}

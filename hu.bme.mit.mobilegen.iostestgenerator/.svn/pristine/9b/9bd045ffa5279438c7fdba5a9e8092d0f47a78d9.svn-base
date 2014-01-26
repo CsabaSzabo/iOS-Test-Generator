@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: hu.bme.mit.mobilegen.iostestgenerator;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-Activator: hu.bme.mit.mobilegen.iostestgenerator.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.resources;bundle-version="3.8.100",
+ org.eclipse.ui.ide;bundle-version="3.9.0",
+ org.eclipse.bpmn2;bundle-version="0.7.0",
+ org.eclipse.xtend.lib,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtext.generator;bundle-version="2.4.2",
+ hu.bme.mit.mobilegen.iostestgenerator.bpmneditor;bundle-version="1.0.0",
+ hu.bme.mit.mobilegen.iostestgenerator.model;bundle-version="0.1.0",
+ hu.bme.mit.mobilegen.iostestgenerator.model.edit;bundle-version="1.0.0",
+ hu.bme.mit.mobilegen.iostestgenerator.model.editor;bundle-version="1.0.0",
+ org.eclipse.emf.common
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+

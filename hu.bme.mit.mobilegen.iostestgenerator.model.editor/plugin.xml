@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated Application -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="hu.bme.mit.mobilegen.iostestgenerator.model.application.presentation.ApplicationModelWizardID"
+            name="%_UI_ApplicationModelWizard_label"
+            class="hu.bme.mit.mobilegen.iostestgenerator.model.application.presentation.ApplicationModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ApplicationModelFile.gif">
+         <description>%_UI_ApplicationModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated Application -->
+      <editor
+            id="hu.bme.mit.mobilegen.iostestgenerator.model.application.presentation.ApplicationEditorID"
+            name="%_UI_ApplicationEditor_label"
+            icon="icons/full/obj16/ApplicationModelFile.gif"
+            extensions="application"
+            class="hu.bme.mit.mobilegen.iostestgenerator.model.application.presentation.ApplicationEditor"
+            contributorClass="hu.bme.mit.mobilegen.iostestgenerator.model.application.presentation.ApplicationActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

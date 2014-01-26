@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Application -->
+      <package
+            uri="http://application/1.0"
+            class="hu.bme.mit.mobilegen.iostestgenerator.model.application.ApplicationPackage"
+            genModel="model/Application.genmodel"/>
+   </extension>
+
+</plugin>

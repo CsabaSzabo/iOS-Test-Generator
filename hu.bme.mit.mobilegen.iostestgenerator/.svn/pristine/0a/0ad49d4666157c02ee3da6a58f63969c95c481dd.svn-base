@@ -1,0 +1,52 @@
+package hu.bme.mit.mobilegen.iostestgenerator
+
+class HelloXtend  {
+	
+	def testFileBegin(String fileName, String projectName)'''
+//
+//  «fileName».m
+//  «projectName»
+//
+//  Created by Csaba Szabo on 20/10/13.
+//  Copyright (c) 2013 SSK Development. All rights reserved.
+//
+
+#import <KIF/KIF.h>
+
+@interface «fileName» : KIFTestCase
+@end
+
+@implementation «fileName»
+'''
+
+	def testFileEnd() '''
+@end
+'''
+	
+	def beforeAll() '''
+- (void)beforeAll
+{
+	
+}
+'''
+
+	def afterAll() '''
+- (void)afterAll
+{
+    
+}
+'''
+
+	def testMethodBegin(String methodName) '''
+- (void) test«methodName»
+{
+'''
+
+	def testMethodEnd() '''
+}
+'''
+
+	def newLine() '''
+
+'''
+}

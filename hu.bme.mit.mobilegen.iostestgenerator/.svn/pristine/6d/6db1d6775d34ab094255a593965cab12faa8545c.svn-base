@@ -1,0 +1,97 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import org.eclipse.xtend2.lib.StringConcatenation;
+
+@SuppressWarnings("all")
+public class HelloXtend {
+  public CharSequence testFileBegin(final String fileName, final String projectName) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("//");
+    _builder.newLine();
+    _builder.append("//  ");
+    _builder.append(fileName, "");
+    _builder.append(".m");
+    _builder.newLineIfNotEmpty();
+    _builder.append("//  ");
+    _builder.append(projectName, "");
+    _builder.newLineIfNotEmpty();
+    _builder.append("//");
+    _builder.newLine();
+    _builder.append("//  Created by Csaba Szabo on 20/10/13.");
+    _builder.newLine();
+    _builder.append("//  Copyright (c) 2013 SSK Development. All rights reserved.");
+    _builder.newLine();
+    _builder.append("//");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("@interface ");
+    _builder.append(fileName, "");
+    _builder.append(" : KIFTestCase");
+    _builder.newLineIfNotEmpty();
+    _builder.append("@end");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("@implementation ");
+    _builder.append(fileName, "");
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  public CharSequence testFileEnd() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("@end");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence beforeAll() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("- (void)beforeAll");
+    _builder.newLine();
+    _builder.append("{");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence afterAll() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("- (void)afterAll");
+    _builder.newLine();
+    _builder.append("{");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence testMethodBegin(final String methodName) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("- (void) test");
+    _builder.append(methodName, "");
+    _builder.newLineIfNotEmpty();
+    _builder.append("{");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence testMethodEnd() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence newLine() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.newLine();
+    return _builder;
+  }
+}

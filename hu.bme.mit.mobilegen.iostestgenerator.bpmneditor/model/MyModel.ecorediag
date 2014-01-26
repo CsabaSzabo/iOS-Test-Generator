@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_irkCkFusEeO-M6vuaYriag" type="EcoreTools" name="MyModel.ecorediag" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_isFnAFusEeO-M6vuaYriag" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ishE0FusEeO-M6vuaYriag" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_isjhEFusEeO-M6vuaYriag" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_isjhEVusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_isjhElusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_isjhE1usEeO-M6vuaYriag"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_iskvMFusEeO-M6vuaYriag" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_iskvMVusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_iskvMlusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_iskvM1usEeO-M6vuaYriag"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_isFnAVusEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MyModel.ecore#//DocumentRoot"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_isFnAlusEeO-M6vuaYriag" x="27" y="254"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_is77kFusEeO-M6vuaYriag" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_is8ioFusEeO-M6vuaYriag" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_is8ioVusEeO-M6vuaYriag" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_is9wwFusEeO-M6vuaYriag" type="2001">
+        <element xmi:type="ecore:EAttribute" href="MyModel.ecore#//Parameter/name"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_is9wwVusEeO-M6vuaYriag"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_is-X0FusEeO-M6vuaYriag" type="2001">
+        <element xmi:type="ecore:EAttribute" href="MyModel.ecore#//Parameter/value"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_is-X0VusEeO-M6vuaYriag"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_is8iolusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_is8io1usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_is8ipFusEeO-M6vuaYriag"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_is8ipVusEeO-M6vuaYriag" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_is8iplusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_is8ip1usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_is8iqFusEeO-M6vuaYriag"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_is77kVusEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MyModel.ecore#//Parameter"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_is77klusEeO-M6vuaYriag" x="27" y="27"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_is-X0lusEeO-M6vuaYriag" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_is--4FusEeO-M6vuaYriag" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_is--4VusEeO-M6vuaYriag" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_is--4lusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_is--41usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_is_l8FusEeO-M6vuaYriag"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_is_l8VusEeO-M6vuaYriag" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_is_l8lusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_is_l81usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_is_l9FusEeO-M6vuaYriag"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_is-X01usEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MyModel.ecore#//TaskConfig"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_is-X1FusEeO-M6vuaYriag" x="27" y="152"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_is_l9VusEeO-M6vuaYriag" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_itA0EFusEeO-M6vuaYriag" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_itA0EVusEeO-M6vuaYriag" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_itCCMFusEeO-M6vuaYriag" type="2001">
+        <element xmi:type="ecore:EAttribute" href="MyModel.ecore#//MyEventDefinition/value"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_itCCMVusEeO-M6vuaYriag"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_itA0ElusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_itA0E1usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_itA0FFusEeO-M6vuaYriag"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_itA0FVusEeO-M6vuaYriag" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_itA0FlusEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_itA0F1usEeO-M6vuaYriag"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_itA0GFusEeO-M6vuaYriag"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_is_l9lusEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MyModel.ecore#//MyEventDefinition"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_is_l91usEeO-M6vuaYriag" x="189" y="27"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_irkCkVusEeO-M6vuaYriag"/>
+  <element xmi:type="ecore:EPackage" href="MyModel.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_itJ-AFusEeO-M6vuaYriag" type="3002" source="_isFnAFusEeO-M6vuaYriag" target="_is-X0lusEeO-M6vuaYriag">
+    <children xmi:type="notation:Node" xmi:id="_itLMIFusEeO-M6vuaYriag" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_itLMIVusEeO-M6vuaYriag" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_itOPcFusEeO-M6vuaYriag" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_itOPcVusEeO-M6vuaYriag" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_itJ-AVusEeO-M6vuaYriag" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_itJ-AlusEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="MyModel.ecore#//DocumentRoot/taskConfig"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_itJ-A1usEeO-M6vuaYriag" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i0FscFusEeO-M6vuaYriag" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i0FscVusEeO-M6vuaYriag" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_itQEoFusEeO-M6vuaYriag" type="3002" source="_is-X0lusEeO-M6vuaYriag" target="_is77kFusEeO-M6vuaYriag">
+    <children xmi:type="notation:Node" xmi:id="_itQEpFusEeO-M6vuaYriag" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_itQEpVusEeO-M6vuaYriag" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_itQrsFusEeO-M6vuaYriag" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_itQrsVusEeO-M6vuaYriag" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_itQEoVusEeO-M6vuaYriag" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_itQEolusEeO-M6vuaYriag" fontColor="4210752" fontName="Lucida Grande" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="MyModel.ecore#//TaskConfig/parameters"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_itQEo1usEeO-M6vuaYriag" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i0EeUFusEeO-M6vuaYriag" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_i0FFYFusEeO-M6vuaYriag" id="(0.5,1.0)"/>
+  </edges>
+</notation:Diagram>

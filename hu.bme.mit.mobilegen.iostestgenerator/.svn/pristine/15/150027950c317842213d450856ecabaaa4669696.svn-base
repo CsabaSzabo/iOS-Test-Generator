@@ -1,0 +1,105 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collections;
+
+import org.eclipse.bpmn2.util.Bpmn2ResourceFactoryImpl;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
+import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.resource.Resource;
+
+
+
+
+
+
+
+
+
+// from xml tutorial
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+public class BpmnModelProcesser {
+	
+	void processModel(IPath filePath) {
+		System.out.println("IPath = " + filePath);
+		
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IResource resource = root.findMember(filePath);
+		if (resource != null) {
+		    URI location = resource.getLocationURI();
+		    System.out.println("URI = " + location.toString());
+		    
+		    try {
+				File file = new File(FileLocator.resolve(URIUtil.toURL(location)).toURI());
+				
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(file);
+				
+				doc.getDocumentElement().normalize();
+				
+				System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+				
+				// bpmn2:process
+				NodeList processList = doc.getElementsByTagName("bpmn2:process");
+				
+				for (int temp = 0; temp < processList.getLength(); temp++) {
+					Node process = processList.item(temp);
+					System.out.println("\nProcess Node: " + process.getNodeName());
+					
+					NodeList processNodes = process.getChildNodes();
+					
+					// root to the BPMN2 model
+					ModelNode modelRoot = null;
+					
+					for (int i = 0; i < processNodes.getLength(); i++) {
+						Node processNode = processNodes.item(i);
+						
+						if (processNode.getNodeName().startsWith("bpmn2")) {
+							System.out.println("\n-- " + processNode.getNodeName() + " = " + processNode.getNodeValue());
+							
+							// startEvent
+							if (processNode.getNodeName().matches("bpmn2:startEvent")) {
+								modelRoot = new ModelNode();
+							}
+							
+							modelRoot.setAttributes(processNode);
+						}
+					}
+				}
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+}

@@ -1,0 +1,11 @@
+package hu.bme.mit.mobilegen.iostestgenerator
+
+import java.io.PrintWriter
+
+class HelloXtend  {
+		
+	def helloGenerator(PrintWriter out) {
+		out.println("aaa")
+	}
+	
+}

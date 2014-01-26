@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: hu.bme.mit.mobilegen.iostestgenerator.model;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: hu.bme.mit.mobilegen.iostestgenerator.model.application,
+ hu.bme.mit.mobilegen.iostestgenerator.model.application.impl,
+ hu.bme.mit.mobilegen.iostestgenerator.model.application.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore
+Bundle-ActivationPolicy: lazy

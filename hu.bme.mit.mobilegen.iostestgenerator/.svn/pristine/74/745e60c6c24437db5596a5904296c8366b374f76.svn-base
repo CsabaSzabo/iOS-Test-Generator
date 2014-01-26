@@ -1,0 +1,74 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import java.util.ArrayList;
+
+public class ParsedBPMNModel {
+	
+	private ArrayList<ParsedBPMNNode> nodes;
+	
+	public ParsedBPMNModel() {
+		nodes = new ArrayList<ParsedBPMNNode>();
+	}
+	
+	public void add(ParsedBPMNNode parsedBPMNNode) {
+		nodes.add(parsedBPMNNode);
+	}
+	
+	public void writeToConsole() {
+		for (int i = 0; i < nodes.size(); i++) {
+			ParsedBPMNNode node = nodes.get(i);
+			
+			System.out.println("[name]=" + node.getName() + " - [id]=" + node.getId());
+			
+			if (node.getName().matches("bpmn2:startEvent")) {
+				ParsedBPMNNodeStartEvent startEvent = (ParsedBPMNNodeStartEvent) node;
+				
+				System.out.println("	[outgoing]=" + startEvent.getOutgoing());
+				
+			} else if (node.getName().matches("bpmn2:endEvent")) {
+				ParsedBPMNNodeEndEvent endEvent = (ParsedBPMNNodeEndEvent) node;
+				
+				System.out.println("	[incoming]=" + endEvent.getIncoming());
+				
+			} else if (node.getName().matches("bpmn2:sequenceFlow")) {
+				ParsedBPMNNodeSequenceFlow sequenceFlow = (ParsedBPMNNodeSequenceFlow) node;
+				
+				System.out.println("	[name2]=" + sequenceFlow.getName2());
+				System.out.println("	[sourceRef]=" + sequenceFlow.getSourceRef());
+				System.out.println("	[targetRef]=" + sequenceFlow.getTargetRef());
+				
+			} else if (node.getName().matches("bpmn2:task")) {
+				ParsedBPMNNodeTask task = (ParsedBPMNNodeTask) node;
+				
+				System.out.println("	[name2]=" + task.getName2());
+				System.out.println("	[incoming]=" + task.getIncoming());
+				System.out.println("	[outgoing]=" + task.getOutgoing());
+				
+			} else if (node.getName().matches("bpmn2:inclusiveGateway")) {
+				ParsedBPMNNodeInclusiveGateway inclusiveGateway = (ParsedBPMNNodeInclusiveGateway) node;
+				
+				System.out.println("	[name2]=" + inclusiveGateway.getName2());
+				System.out.println("	[gatewayDirection]=" + inclusiveGateway.getGatewayDirection());
+				System.out.println("	[incoming]=" + inclusiveGateway.getIncoming());
+				
+				for (int j = 0; j < inclusiveGateway.getOutgoings().size(); j++) {
+					System.out.println("	[outgoing]=" + inclusiveGateway.getOutgoing(j));
+				}
+				
+			} else if (node.getName().matches("bpmn2:exclusiveGateway")) {
+				ParsedBPMNNodeExclusiveGateway exclusiveGateway = (ParsedBPMNNodeExclusiveGateway) node;
+				
+				System.out.println("	[name2]=" + exclusiveGateway.getName2());
+				System.out.println("	[gatewayDirection]=" + exclusiveGateway.getGatewayDirection());
+				System.out.println("	[outgoing]=" + exclusiveGateway.getOutgoing());
+				
+				for (int j = 0; j < exclusiveGateway.getIncomings().size(); j++) {
+					System.out.println("	[incoming]=" + exclusiveGateway.getIncoming(j));
+				}
+				
+			} else {
+				
+			}
+		}
+	}
+}

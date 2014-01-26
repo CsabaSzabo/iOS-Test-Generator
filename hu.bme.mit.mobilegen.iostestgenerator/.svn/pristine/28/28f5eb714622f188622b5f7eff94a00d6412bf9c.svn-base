@@ -1,0 +1,378 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import org.eclipse.bpmn2.util.Bpmn2ResourceFactoryImpl;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
+import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.xtext.generator.IFileSystemAccess;
+
+
+
+
+
+
+// from xml tutorial
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+public class BpmnModelProcesser {
+	
+	void processModel(IPath filePath) {
+		System.out.println("IPath = " + filePath);
+		
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IResource resource = root.findMember(filePath);
+		if (resource != null) {
+		    URI location = resource.getLocationURI();
+		    System.out.println("URI = " + location.toString());
+		    
+		    try {
+				File file = new File(FileLocator.resolve(URIUtil.toURL(location)).toURI());
+				
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(file);
+				
+				doc.getDocumentElement().normalize();
+								
+				// bpmn2:process
+				NodeList processList = doc.getElementsByTagName("bpmn2:process");
+				Node process = processList.item(0);
+				NodeList processNodes = process.getChildNodes();
+				
+				// parse BPMN
+				ParsedBPMNModel parsedBPMNModel = parseBPMN(processNodes);
+				// write to console
+				//parsedBPMNModel.writeToConsole();
+				
+				ArrayList<ArrayList<String>> tests = parsedBPMNModel.generateTests();
+				
+				for (int i = 0; i < tests.size(); i++) {
+					ArrayList<String> test = tests.get(i);
+					System.out.println("Test #" + i);
+					for (int j = 0; j < test.size(); j++) {
+						System.out.println("   Step#" + j + " - " + test.get(j));
+					}
+				}
+				
+				
+				
+				// --- TESTFILE GEN ---
+				// create testFile's path
+				String sss = location.getSchemeSpecificPart();
+				String[] sssParts = sss.split("/");
+				sssParts[sssParts.length-2] = "src-gen";
+				sssParts[sssParts.length-1] = "test.h";
+				String testFile = "";
+				for (String string : sssParts) {
+					testFile = testFile.concat(string);
+					testFile = testFile.concat("/");
+				}
+				testFile = testFile.substring(0, testFile.length()-1);
+				
+				// create file
+				File f = new File(testFile);
+				f.createNewFile();
+				
+				// put content to testfile
+				PrintWriter writer = new PrintWriter(f);
+				writer.println("The first line");
+				writer.println("The second line");
+				writer.close();
+				
+				
+				
+				// generate
+				HelloXtend helloXtend = new HelloXtend();
+				PrintWriter out = new PrintWriter("testfile.h");
+				helloXtend.helloGenerator(out);
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private ParsedBPMNModel parseBPMN(NodeList processNodes) {
+		ParsedBPMNModel parsedBPMNModel = new ParsedBPMNModel();
+		
+		for (int i = 0; i < processNodes.getLength(); i++) {
+			Node processNode = processNodes.item(i);
+			
+			if (processNode.getNodeName().startsWith("bpmn2")) {
+				ParsedBPMNNode parsedBPMNNode = null;
+				
+				// startEvent
+				if (processNode.getNodeName().matches("bpmn2:startEvent")) {
+					parsedBPMNNode = new ParsedBPMNNodeStartEvent(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// endEvent
+				else if (processNode.getNodeName().matches("bpmn2:endEvent")) {
+					parsedBPMNNode = new ParsedBPMNNodeEndEvent(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// sequenceFlow
+				else if (processNode.getNodeName().matches("bpmn2:sequenceFlow")) {
+					parsedBPMNNode = new ParsedBPMNNodeSequenceFlow(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// task
+				else if (processNode.getNodeName().matches("bpmn2:task")) {
+					parsedBPMNNode = new ParsedBPMNNodeTask(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// inclusiveGateway
+				else if (processNode.getNodeName().matches("bpmn2:inclusiveGateway")) {
+					parsedBPMNNode = new ParsedBPMNNodeInclusiveGateway(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// exclusiveGateway
+				else if (processNode.getNodeName().matches("bpmn2:exclusiveGateway")) {
+					parsedBPMNNode = new ParsedBPMNNodeExclusiveGateway(processNode.getNodeName(), processNode.getNodeValue());
+				}
+				// can't use user another BPMN element
+				else {
+					// TODO: validation error
+					System.out.println("ERROR: can't use this BPMN element - " + processNode.getNodeName());
+				}
+				
+				NamedNodeMap nodeAttributes = processNode.getAttributes();
+				int attributeCount = 0;
+				if (nodeAttributes != null) {
+					attributeCount = nodeAttributes.getLength();
+				}
+				
+				NodeList nodeChilds = processNode.getChildNodes();
+				int childCount = 0;
+				if (nodeChilds != null) {
+					childCount = nodeChilds.getLength();
+				}
+				
+				// -------------
+				// ATTRIBUTES
+				// -------------
+				for (int ii = 0; ii < attributeCount; ii++) {
+					Node nodeAttribute = nodeAttributes.item(ii);
+					
+					// "id" is unique value for Node
+					if (nodeAttribute.getNodeName().matches("id")) {
+						parsedBPMNNode.setId(nodeAttribute.getNodeValue());
+					}
+					
+					// startEvent
+					if (processNode.getNodeName().matches("bpmn2:startEvent")) {
+						ParsedBPMNNodeStartEvent startEvent = (ParsedBPMNNodeStartEvent) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for startEvent - " + nodeAttribute.getNodeName());
+						}
+					}
+					// endEvent
+					else if (processNode.getNodeName().matches("bpmn2:endEvent")) {
+						ParsedBPMNNodeEndEvent endEvent = (ParsedBPMNNodeEndEvent) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for endEvent - " + nodeAttribute.getNodeName());
+						}
+					}
+					// sequenceFlow
+					else if (processNode.getNodeName().matches("bpmn2:sequenceFlow")) {
+						ParsedBPMNNodeSequenceFlow sequenceFlow = (ParsedBPMNNodeSequenceFlow) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else if (nodeAttribute.getNodeName().matches("name")) {
+							sequenceFlow.setName2(nodeAttribute.getNodeValue());
+						} else if (nodeAttribute.getNodeName().matches("sourceRef")) {
+							sequenceFlow.setSourceRef(nodeAttribute.getNodeValue());
+						} else if (nodeAttribute.getNodeName().matches("targetRef")) {
+							sequenceFlow.setTargetRef(nodeAttribute.getNodeValue());
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for sequenceFlow - " + nodeAttribute.getNodeName());
+						}
+					}
+					// task
+					else if (processNode.getNodeName().matches("bpmn2:task")) {
+						ParsedBPMNNodeTask task = (ParsedBPMNNodeTask) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else if (nodeAttribute.getNodeName().matches("name")) {
+							task.setName2(nodeAttribute.getNodeValue());
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for task - " + nodeAttribute.getNodeName());
+						}
+					}
+					// inclusiveGateway
+					else if (processNode.getNodeName().matches("bpmn2:inclusiveGateway")) {
+						ParsedBPMNNodeInclusiveGateway inclusiveGateway = (ParsedBPMNNodeInclusiveGateway) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else if (nodeAttribute.getNodeName().matches("name")) {
+							inclusiveGateway.setName2(nodeAttribute.getNodeValue());
+						} else if (nodeAttribute.getNodeName().matches("gatewayDirection")) {
+							inclusiveGateway.setGatewayDirection(nodeAttribute.getNodeValue());
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for inclusiveGateway - " + nodeAttribute.getNodeName());
+						}
+					}
+					// exclusiveGateway
+					else if (processNode.getNodeName().matches("bpmn2:exclusiveGateway")) {
+						ParsedBPMNNodeExclusiveGateway exclusiveGateway = (ParsedBPMNNodeExclusiveGateway) parsedBPMNNode;
+						
+						if (nodeAttribute.getNodeName().matches("id")) {
+							
+						} else if (nodeAttribute.getNodeName().matches("name")) {
+							exclusiveGateway.setName2(nodeAttribute.getNodeValue());
+						} else if (nodeAttribute.getNodeName().matches("gatewayDirection")) {
+							exclusiveGateway.setGatewayDirection(nodeAttribute.getNodeValue());
+						} else {
+							// no more parameters
+							System.out.println("ERROR: not handled attribute for exclusiveGateway - " + nodeAttribute.getNodeName());
+						}
+					}
+					// can't use user another BPMN element
+					else {
+						// TODO: validation error
+						System.out.println("ERROR: can't use this BPMN element - " + processNode.getNodeName());
+					}
+				}
+				
+				// -------------
+				// CHILDES
+				// -------------
+				for (int ii = 0; ii < childCount; ii++) {
+					Node nodeChild = nodeChilds.item(ii);						
+					
+					// startEvent
+					if (processNode.getNodeName().matches("bpmn2:startEvent")) {
+						ParsedBPMNNodeStartEvent startEvent = (ParsedBPMNNodeStartEvent) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("bpmn2:outgoing")) {
+							startEvent.setOutgoing(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for startEvent - " + nodeChild.getNodeName());
+						}
+					}
+					// endEvent
+					else if (processNode.getNodeName().matches("bpmn2:endEvent")) {
+						ParsedBPMNNodeEndEvent endEvent = (ParsedBPMNNodeEndEvent) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("bpmn2:incoming")) {
+							endEvent.setIncoming(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for endEvent - " + nodeChild.getNodeName());
+						}
+					}
+					// sequenceFlow
+					else if (processNode.getNodeName().matches("bpmn2:sequenceFlow")) {
+						ParsedBPMNNodeSequenceFlow sequenceFlow = (ParsedBPMNNodeSequenceFlow) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for sequenceFlow - " + nodeChild.getNodeName());
+						}
+					}
+					// task
+					else if (processNode.getNodeName().matches("bpmn2:task")) {
+						ParsedBPMNNodeTask task = (ParsedBPMNNodeTask) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("bpmn2:incoming")) {
+							task.setIncoming(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("bpmn2:outgoing")) {
+							task.setOutgoing(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for task - " + nodeChild.getNodeName());
+						}
+					}
+					// inclusiveGateway
+					else if (processNode.getNodeName().matches("bpmn2:inclusiveGateway")) {
+						ParsedBPMNNodeInclusiveGateway inclusiveGateway = (ParsedBPMNNodeInclusiveGateway) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("bpmn2:incoming")) {
+							inclusiveGateway.setIncoming(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("bpmn2:outgoing")) {
+							inclusiveGateway.addOutgoing(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for inclusiveGateway - " + nodeChild.getNodeName());
+						}
+					}
+					// exclusiveGateway
+					else if (processNode.getNodeName().matches("bpmn2:exclusiveGateway")) {
+						ParsedBPMNNodeExclusiveGateway exclusiveGateway = (ParsedBPMNNodeExclusiveGateway) parsedBPMNNode;
+						
+						if (nodeChild.getNodeName().matches("bpmn2:incoming")) {
+							exclusiveGateway.addIncoming(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("bpmn2:outgoing")) {
+							exclusiveGateway.setOutgoing(nodeChild.getTextContent());
+						} else if (nodeChild.getNodeName().matches("#text")) {
+							
+						} else {
+							// no more childNodes
+							System.out.println("ERROR: not handled childNode for exclusiveGateway - " + nodeChild.getNodeName());
+						}
+					}
+					// can't use user another BPMN element
+					else {
+						// TODO: validation error
+						System.out.println("ERROR: can't use this BPMN element - " + processNode.getNodeName());
+					}
+				}
+				
+				parsedBPMNModel.add(parsedBPMNNode);
+			}
+		}
+		return parsedBPMNModel;
+	}
+}

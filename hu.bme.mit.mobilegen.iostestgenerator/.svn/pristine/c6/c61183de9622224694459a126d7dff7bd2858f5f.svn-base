@@ -1,0 +1,5 @@
+package hu.bme.mit.mobilegen.iostestgenerator;
+
+public class ParsedBPMNNode {
+	
+}

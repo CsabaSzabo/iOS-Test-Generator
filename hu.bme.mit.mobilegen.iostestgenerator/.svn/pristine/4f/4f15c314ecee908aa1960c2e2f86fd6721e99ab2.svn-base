@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="hu.bme.mit.mobilegen.iostestgenerator.category"
+            name="iOS Test Generator (ITG)">
+      </category>
+      <view
+            category="hu.bme.mit.mobilegen.iostestgenerator.category"
+            class="hu.bme.mit.mobilegen.iostestgenerator.ui.ConsoleView"
+            id="hu.bme.mit.mobilegen.iostestgenerator.consoleView"
+            name="Console"
+            restorable="true">
+      </view>
+   </extension>
+   
+   <extension
+      point = "org.eclipse.ui.newWizards">
+	<category
+	   id = "hu.bme.mit.mobilegen.iostestgenerator.projectWizard"
+	   name="iOS Test Generator (ITG)">
+	</category>
+ 	<wizard
+        category="hu.bme.mit.mobilegen.iostestgenerator.projectWizard"
+        class="hu.bme.mit.mobilegen.iostestgenerator.wizards.ITGProject"
+        id="hu.bme.mit.mobilegen.iostestgenerator.wizards.ITGProject"
+        name="ITG Project"
+        project="true">
+	</wizard>
+</extension>
+
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Application -->
+      <package
+            uri="http://application/1.0"
+            class="hu.bme.mit.mobilegen.iostestgenerator.application.ApplicationPackage"
+            genModel="model/Application.genmodel"/>
+   </extension>
+
+</plugin>
