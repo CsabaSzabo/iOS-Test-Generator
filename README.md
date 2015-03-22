@@ -3,8 +3,9 @@ iOS-Test-Generator
 
 iOS Test Generator. I made this project as my univeristy BSc thesis.
 
-Slides (Hungarian): http://www.slideshare.net/CsabaSzab/bme-szakdolgozat-2014
-English version will come soon.
+#### Slides:
+- [English version](http://www.slideshare.net/CsabaSzab/2014-bme-thesis)
+- [Hungarian version](http://www.slideshare.net/CsabaSzab/bme-szakdolgozat-2014)
 
 
 ### Connected topics:
